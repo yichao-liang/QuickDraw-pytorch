@@ -27,7 +27,7 @@ def load_dataset(root, mtype):
 
 
 class QD_Dataset(data.Dataset):
-    def __init__(self, mtype, root='Dataset'):
+    def __init__(self, mtype, transform, root='Dataset'):
         """
         args:
         - mytpe: str, specify the type of the dataset, i.e, 'train' or 'test'
@@ -35,13 +35,16 @@ class QD_Dataset(data.Dataset):
         """
 
         self.data, self.target, self.num_classes = load_dataset(root, mtype)
-        self.data = torch.from_numpy(self.data)
+        self.data = self.data 
         self.target = torch.from_numpy(self.target)
+        self.transform = transform
         print("Dataset "+mtype+" loading done.")
         print("*"*50+"\n")
 
     def __getitem__(self, index):
-        return self.data[index], self.target[index]
+        img = self.data[index]
+        img = img.reshape(28,28,1) / 255
+        return self.transform(img).view(1, 50, 50), self.target[index]
 
     def __len__(self):
         return len(self.data)
