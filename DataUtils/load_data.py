@@ -6,7 +6,7 @@ import torch.utils.data as data
 
 def load_dataset(root, mtype):
     num_classes = 0
-    with open("./DataUtils/class_names.txt", "r") as f:
+    with open("./data/QuickDraw_pytorch/DataUtils/class_names.txt", "r") as f:
         for line in f:
             num_classes = num_classes+1
 
